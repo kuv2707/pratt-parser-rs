@@ -1,9 +1,9 @@
 use lexemes::Token;
 
-mod lexemes;
+pub mod lexemes;
 
 pub struct Lexer {
-    pub toks: Vec<Token>,
+    toks: Vec<Token>,
     linecnt: i32,
     word: String,
 }
@@ -16,7 +16,7 @@ impl Lexer {
             word: String::new(),
         }
     }
-    pub fn lexify(&mut self, src: &str) {
+    pub fn lexify(&mut self, src: &str) -> &Vec<Token> {
         let mut it = src.chars();
         while let Some(c) = it.next() {
             if is_delimiter(c) {
@@ -52,6 +52,7 @@ impl Lexer {
             }
         }
         self.parse_word();
+        return &self.toks;
     }
     fn parse_word(&mut self) {
         if self.word.len() == 0 {
@@ -90,4 +91,13 @@ fn is_operator(c: char) -> bool {
         c,
         '+' | '-' | '*' | '/' | '%' | '<' | '>' | '!' | '|' | '&' | '=' | '#' | '.' | '?'
     )
+}
+
+#[test]
+fn test_lexify() {
+    let mut lx = Lexer::new();
+    lx.lexify("A=(B.!C)+D.0");
+    for k in lx.toks {
+        println!("{:?}",k);
+    }
 }
