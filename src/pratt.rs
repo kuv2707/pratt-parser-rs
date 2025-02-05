@@ -10,11 +10,14 @@ pub struct Parser {
 
 pub fn get_precedence(op: char) -> f32 {
     match op {
+        '!' => 5.0,
         '*' | '/' => 4.0,
         '.' => 3.0,
         '+' | '-' => 2.0,
-        '!' => 1.0,
+        ',' => 0.5,
         '=' => 0.1,
+        ':' => 0.1,
+        ';' => -10.0,
         _ => -0.5, // panic!("Unknown operator {}", op),
     }
 }
@@ -136,7 +139,7 @@ fn is_postfix_operator(op: char) -> bool {
 #[test]
 fn test_parse() {
     let mut lx = Lexer::new();
-    let toks = lx.lexify("a = a * (b * (c+d)) - 4;");
+    let toks = lx.lexify("S= (A*B)*C; Co=(A.B)+(A*B).C;");
     println!("{:?}", toks);
     let mut p = Parser::new(toks);
     let n = p.parse();

@@ -1,4 +1,5 @@
 pub enum NodeType {
+    // todo: use String
     Operator(char, Vec<NodeType>),
     Literal(String, Vec<NodeType>),
 }

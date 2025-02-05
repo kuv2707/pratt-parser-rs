@@ -75,7 +75,7 @@ fn is_delimiter(c: char) -> bool {
 }
 
 fn is_punctuation(c: char) -> bool {
-    c == ',' || c == ';' || c == ':'
+    false
 }
 
 fn is_lexical_quote(c: char) -> bool {
@@ -89,7 +89,22 @@ fn is_bracket(c: char) -> bool {
 fn is_operator(c: char) -> bool {
     matches!(
         c,
-        '+' | '-' | '*' | '/' | '%' | '<' | '>' | '!' | '|' | '&' | '=' | '#' | '.' | '?'
+        '+' | '-'
+            | '*'
+            | '/'
+            | '%'
+            | '<'
+            | '>'
+            | '!'
+            | '|'
+            | '&'
+            | '='
+            | '#'
+            | '.'
+            | '?'
+            | ':'
+            | ','
+            | ';'
     )
 }
 
@@ -98,6 +113,6 @@ fn test_lexify() {
     let mut lx = Lexer::new();
     lx.lexify("A=(B.!C)+D.0");
     for k in lx.toks {
-        println!("{:?}",k);
+        println!("{:?}", k);
     }
 }
